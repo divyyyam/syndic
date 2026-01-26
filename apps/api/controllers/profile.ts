@@ -2,7 +2,9 @@ import prisma from "@repo/db";
 import { verifyAccessToken } from "@repo/utils";
 import { Request, Response } from "express";
 import { setupProfileSchema } from "@repo/zod";
+
 const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET as string;
+
 export const setupProfile = async (req: Request, res: Response) => {
   try {
     const token = req.cookies.accessToken;

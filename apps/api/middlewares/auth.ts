@@ -20,7 +20,7 @@ export const authMiddleware = (
     const token =
       req.cookies?.accessToken ||
       req.headers.authorization?.replace("Bearer ", "");
-
+      
     if (!token) {
       return res.status(401).json({
         success: false,

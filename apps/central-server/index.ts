@@ -8,7 +8,7 @@ import dotenv from "dotenv"
 
 
 const app = express()
-const port = 3001
+const port = 4001
 dotenv.config()
 app.use(express.json())
 
