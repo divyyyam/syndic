@@ -1,7 +1,7 @@
 import prisma from "@repo/db";
-import redis from "../config/redis/config"; //just for otp , primary server redis 
+import redis from "../config/redis"; //just for otp , primary server redis 
 import { Request,Response } from "express";
-import resend from "../config/resend/config";
+import resend from "../config/resend";
 function generateOTP(){
     return Math.floor(100000 + Math.random() * 900000).toString();
 } 

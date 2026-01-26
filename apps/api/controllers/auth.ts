@@ -33,8 +33,7 @@ export const registerUser = async (req: Request, res: Response) => {
     }
 
     const hashedPwd = await hashPassword(password);
-
-    // Use a transaction to create user and wallet atomically
+ 
     const result = await prisma.$transaction(async (tx) => {
       const user = await tx.users.create({
         data: {
@@ -46,7 +45,7 @@ export const registerUser = async (req: Request, res: Response) => {
         },
       });
 
-      // Create wallet for the new user
+    
       await tx.syndicWallet.create({
         data: {
           userEmail: email,
@@ -59,18 +58,18 @@ export const registerUser = async (req: Request, res: Response) => {
       return user;
     });
 
-    const checkUser = await prisma.users.findUnique({
-      where: { id: result.id },
-      select: {
-        id: true,
-        firstName: true,
-        lastName: true,
-        email: true,
-        isVerified: true,
-        createdAt: true,
-        updatedAt: true,
-      },
-    });
+    // const checkUser = await prisma.users.findUnique({
+    //   where: { id: result.id },
+    //   select: {
+    //     id: true,
+    //     firstName: true,
+    //     lastName: true,
+    //     email: true,
+    //     isVerified: true,
+    //     createdAt: true,
+    //     updatedAt: true,
+    //   },
+    // });
 
     if (!checkUser) {
       return res
@@ -103,7 +102,7 @@ export const loginUser = async (req: Request, res: Response) => {
 
     const { email, password } = validation.data;
 
-    const user = await prisma.users.findUnique({ where: { email } });
+    // const user = await prisma.users.findUnique({ where: { email } });
 
     if (!user) {
       return res

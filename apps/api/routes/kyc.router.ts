@@ -1,6 +1,6 @@
 import express, { Request, Response, NextFunction } from "express";
 import { addKYCInfo } from "../controllers/kyc.controller";
-import { upload } from "../utils/cloudinaryUpload";
+import { upload } from "../utils/cloudinary";
 
 const kycRouter = express.Router();
 

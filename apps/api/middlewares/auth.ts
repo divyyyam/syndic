@@ -16,7 +16,7 @@ export const authMiddleware = (
   next: NextFunction
 ) => {
   try {
-    // Accept both cookie and Authorization header
+   
     const token =
       req.cookies?.accessToken ||
       req.headers.authorization?.replace("Bearer ", "");

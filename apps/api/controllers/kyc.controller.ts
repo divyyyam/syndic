@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import prisma from '@repo/db';
-import { uploadToCloudinary } from '../utils/cloudinaryUpload';
+import { uploadToCloudinary } from '../utils/cloudinary';
 // Add new KYC information
 export const addKYCInfo = async (req: Request, res: Response) => {
   try {
@@ -14,7 +14,7 @@ export const addKYCInfo = async (req: Request, res: Response) => {
       });
     }
 
-    // Check if uploaded files are present
+ 
     const files = req.files as { [fieldname: string]: Express.Multer.File[] };
     const panImageFile = files?.panImage?.[0];
     const aadhaarImageFile = files?.aadhaarImage?.[0];

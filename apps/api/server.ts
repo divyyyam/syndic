@@ -39,6 +39,15 @@ app.get("/health", async (req: Request, res: Response) => {
   });
 });
 
+
+declare global{
+  namespace Express{
+    interface Request{
+      userId?:string,
+      
+    }
+  }
+}
 app.listen(port, () => {
   console.log("Server started on :", port);
 });
