@@ -1,15 +1,15 @@
 import Redis from "ioredis";
 
  
-const redisSA = new Redis({
+const antonRedis = new Redis({
   port: 6379,
   host: "127.0.0.1"
 });
 
  
-const redisSC = new Redis({
+const clientRedis = new Redis({
   port: 6380,
   host: "127.0.0.1"
 });
 
-export { redisSA, redisSC };
+export { antonRedis, clientRedis };

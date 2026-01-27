@@ -1,5 +1,5 @@
 import { Request,Response,NextFunction } from "express";
-import { HttpStatus } from "../utils/Http";
+import { HttpStatus } from "../utils/http";
 
 
 
