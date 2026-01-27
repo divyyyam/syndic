@@ -1,8 +1,6 @@
 import { Request,Response } from "express";
 import prisma from "@repo/db"
 
-
-
 export class TransactionController{
     
     createF2F = async (req:Request,res:Response) => {

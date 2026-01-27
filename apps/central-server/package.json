@@ -8,7 +8,8 @@
   },
   "devDependencies": {
     "@repo/typescript-config": "*",
-    "@repo/db":"*"
+    "@repo/db":"*",
+    "@repo/utils":"*"
   },
   "keywords": [],
   "author": "",
