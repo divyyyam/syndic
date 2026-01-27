@@ -1,4 +1,5 @@
 import prisma from "@repo/db";
+import { ServerError } from "./error.service";
 
 
 
@@ -7,7 +8,7 @@ export class TransactionService{
         try {
             
         } catch (error) {
-            
+            throw new ServerError("Could not create transaction, internal server error")
         }
     }
 }

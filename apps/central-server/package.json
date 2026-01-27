@@ -9,7 +9,9 @@
   "devDependencies": {
     "@repo/typescript-config": "*",
     "@repo/db":"*",
-    "@repo/utils":"*"
+    "@repo/utils":"*",
+    "@repo/redis":"*",
+    "@repo/zod":"*"
   },
   "keywords": [],
   "author": "",

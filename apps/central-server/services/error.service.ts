@@ -1,4 +1,4 @@
-import { HttpStatus } from "../utils/Http"
+import { HttpStatus } from "../utils/http"
 export class BadRequest extends Error{
     statusCode:number
     constructor(message:string){
