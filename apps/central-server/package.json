@@ -8,10 +8,10 @@
   },
   "devDependencies": {
     "@repo/typescript-config": "*",
-    "@repo/db":"*",
-    "@repo/utils":"*",
-    "@repo/redis":"*",
-    "@repo/zod":"*"
+    "@repo/db": "*",
+    "@repo/utils": "*",
+    "@repo/redis": "*",
+    "@repo/zod": "*"
   },
   "keywords": [],
   "author": "",
@@ -20,6 +20,7 @@
   "dependencies": {
     "cors": "^2.8.6",
     "dotenv": "^17.2.3",
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "razorpay": "^2.9.6"
   }
 }

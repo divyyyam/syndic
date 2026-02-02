@@ -29,7 +29,7 @@ export const authMiddleware = (
     }
 
     // Verify JWT
-    const decoded = verifyAccessToken(token, process.env.ACCESS_TOKEN_SECRET!);
+    const decoded = verifyAccessToken(token);
 
     if (!decoded) {
       return res.status(401).json({

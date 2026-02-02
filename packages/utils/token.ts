@@ -4,7 +4,6 @@ import jwt from "jsonwebtoken";
 import { JwtPayload } from "jsonwebtoken";
 export interface AccessTokenPayload extends JwtPayload {
   userId: string;
-  
 }
 
 export interface RefreshTokenPayload extends JwtPayload {
@@ -37,17 +36,17 @@ export const createRefreshToken = (
   return jwt.sign(payload, secret, { expiresIn:"7d" });
 };
 
-export const verifyAccessToken = (token: string, secret: string) => {
+export const verifyAccessToken = (token: string) => {
   try {
-    return jwt.verify(token, secret);
+    return jwt.verify(token, process.env.ACCESS_TOKEN_SECRET as string);
   } catch (error) {
     return null;
   }
 };
 
-export const verifyRefreshToken = (token: string, secret: string) => {
+export const verifyRefreshToken = (token: string) => {
   try {
-    return jwt.verify(token, secret);
+    return jwt.verify(token, process.env.ACCESS_TOKEN_SECRET as string);
   } catch (error) {
     return null;
   }

@@ -3,5 +3,6 @@ export enum HttpStatus{
     NotFound = 404,
     ServerError = 500,
     BadRequest = 400,
-    Success=200
+    Success=200,
+    Created = 201,
 }
