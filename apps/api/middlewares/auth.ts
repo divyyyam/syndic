@@ -38,7 +38,7 @@ export const authMiddleware = (
       });
     }
 
-    // Attach user data to request
+ 
     req.user = decoded as AuthenticatedRequest["user"];
 
     next();
