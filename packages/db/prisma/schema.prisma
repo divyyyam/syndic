@@ -1,4 +1,3 @@
-
 generator client {
   provider = "prisma-client-js"
   output   = "../generated/prisma"
@@ -9,227 +8,225 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum TransactionMethod{
+enum TransactionMethod {
   CryptoTransaction
   CentralizedTransaction
   CryptoToCentralized
   CentralizedToCrypto
 }
 
-enum SupportedCurrencies{
+enum SupportedCurrencies {
   AED
   USD
   INR
 }
 
-enum SupportedCrypto{
+enum SupportedCrypto {
   USDT
   USDC
   ETH
   SOL
 }
 
-enum KYCStatus{
+enum KYCStatus {
   COMPLETED
-  INCOMPLETE 
+  INCOMPLETE
   VERIFICATION_PENDING
 }
+
 model Users {
-  id String @id @default(uuid())
-  email String @unique
-  firstName String  
-  lastName String
-  password String 
-  isVerified Boolean @default(false)
-  refreshToken String? @unique
-  createdAt DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-
-  @@map("Users") 
+  id                       String                     @id @default(uuid())
+  email                    String                     @unique
+  firstName                String
+  lastName                 String
+  password                 String
+  isVerified               Boolean                    @default(false)
+  refreshToken             String?                    @unique
+  createdAt                DateTime                   @default(now())
+  updatedAt                DateTime                   @updatedAt
   //relations
-  userProfile  UserProfile[]
-  successfulTransactions  SuccessfulTransactions[]
-  failedTransactions     FailedTransactions[]
-  centralizedTransactions   FiatToFiatTransaction[]
-  cryptoTransactions     CryptoTransactions[]
-  cryptoToFiatTransactions   CryptoToFiatTransactions[]
-  fiatToCryptoTransactions   FiatToCryptoTransactions[]
-  syndicWallet               SyndicWallet[]
-  kyc                        UserKYC[]
-  platformPin                UserPlatformPin[]
+  userProfile              UserProfile[]
+  successfulTransactions   SuccessfulTransactions[]
+  failedTransactions       FailedTransactions[]
+  centralizedTransactions  FiatToFiatTransaction[]
+  cryptoTransactions       CryptoTransactions[]
+  cryptoToFiatTransactions CryptoToFiatTransactions[]
+  fiatToCryptoTransactions FiatToCryptoTransactions[]
+  syndicWallet             SyndicWallet[]
+  kyc                      UserKYC[]
+  platformPin              UserPlatformPin[]
+
+  @@map("Users")
 }
 
-model UserProfile{
-  id String @id @default(uuid())
-  phoneNumber String @unique //this has to be with the country code
-  country  String
-  address  String
-  defaultCryptoWallet  String? //to store a default wallet to make the overall 
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+model UserProfile {
+  id                  String   @id @default(uuid())
+  phoneNumber         String   @unique //this has to be with the country code
+  country             String
+  address             String
+  defaultCryptoWallet String? //to store a default wallet to make the overall 
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
   //relation
-  userID   String  @unique
-  user     Users @relation(fields: [userID], references: [id])
+  userID              String   @unique
+  user                Users    @relation(fields: [userID], references: [id])
+}
 
- }
-
-model UserPlatformPin{
-  id String @id @default(uuid())
-  userID String @unique
-  user   Users @relation(fields: [userID],references: [id])
+model UserPlatformPin {
+  id          String   @id @default(uuid())
+  userID      String   @unique
+  user        Users    @relation(fields: [userID], references: [id])
   platformPin String
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-}
-model UserKYC{
-  id String @id @default(uuid())
-  userEmail String @unique
-  user   Users   @relation(fields: [userEmail],references: [email])
-  panNumber         String    @unique
-  aadhaarNumber     String    @unique
-  panImageUrl       String
-  aadhaarImageUrl   String
-  status            KYCStatus @default(VERIFICATION_PENDING)
-  createdAt         DateTime  @default(now())
-  updatedAt         DateTime  @updatedAt
-}
-model SuccessfulTransactions{
-  id String @id @default(uuid())
-  
-  receiverEmail String 
-  currencySent  String
-  currencyReceived String
-  senderCountry   String
-  receiverCountry  String
-  routeUsed        String
-  method           TransactionMethod
-  //relations
-  userEmail  String 
-  user  Users  @relation(fields: [userEmail],references: [email])
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-}
-
-model FailedTransactions{
-  id String @id @default(uuid())
-  receiverEmail String
-  currencySent  String
-  currencyReceived String
-  senderCountry   String
-  receiverCountry  String
-  routeUsed        String
-  method           TransactionMethod
-  userEmail  String @unique
-  user    Users  @relation(fields: [userEmail],references: [email])
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-}
-
-model CryptoTransactions{
-  id  String @id @default(uuid())
-  userEmail  String 
-  user Users @relation(fields: [userEmail],references: [email])
-  userWallet  String  //crypto wallet address
-  receiverWallet  String 
-  senderCrypto  String
-  receiverCrypto String
-  routes    CryptoToCryptoRoutes[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
 
-model FiatToFiatTransaction{
-  id   String @id @default(uuid())
-  userEmail  String 
-  user Users @relation(fields: [userEmail],references: [email])
-  receiverEmail String?
-  senderCurrency String
-  receiverCurrency String
-  senderCountry  String
-  receiverCountry String
-  routes     FiatToFiatRoutes[]
-
-  createdAt DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+model UserKYC {
+  id              String    @id @default(uuid())
+  userEmail       String    @unique
+  user            Users     @relation(fields: [userEmail], references: [email])
+  panNumber       String    @unique
+  aadhaarNumber   String    @unique
+  panImageUrl     String
+  aadhaarImageUrl String
+  status          KYCStatus @default(VERIFICATION_PENDING)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
 }
 
-model CryptoToFiatTransactions{
-  id   String @id  @default(uuid())
-  userEmail  String
-  user Users @relation(fields: [userEmail],references: [email])
+model SuccessfulTransactions {
+  id String @id @default(uuid())
+
+  receiverEmail    String
+  currencySent     String
+  currencyReceived String
+  senderCountry    String
+  receiverCountry  String
+  routeUsed        String
+  method           TransactionMethod
+  //relations
+  userEmail        String
+  user             Users             @relation(fields: [userEmail], references: [email])
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+}
+
+model FailedTransactions {
+  id               String            @id @default(uuid())
+  receiverEmail    String
+  currencySent     String
+  currencyReceived String
+  senderCountry    String
+  receiverCountry  String
+  routeUsed        String
+  method           TransactionMethod
+  userEmail        String            @unique
+  user             Users             @relation(fields: [userEmail], references: [email])
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+}
+
+model CryptoTransactions {
+  id             String                 @id @default(uuid())
+  userEmail      String
+  user           Users                  @relation(fields: [userEmail], references: [email])
+  userWallet     String //crypto wallet address
+  receiverWallet String
+  senderCrypto   String
+  receiverCrypto String
+  routes         CryptoToCryptoRoutes[]
+  createdAt      DateTime               @default(now())
+  updatedAt      DateTime               @updatedAt
+}
+
+model FiatToFiatTransaction {
+  id               String             @id @default(uuid())
+  userEmail        String
+  user             Users              @relation(fields: [userEmail], references: [email])
+  receiverEmail    String?
+  senderCurrency   String
+  receiverCurrency String
+  senderCountry    String
+  receiverCountry  String
+  routes           FiatToFiatRoutes[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model CryptoToFiatTransactions {
+  id                  String               @id @default(uuid())
+  userEmail           String
+  user                Users                @relation(fields: [userEmail], references: [email])
   senderWalletAddress String
-  receiverId   String? 
-  receiverCurrency String
-  senderCrypto  String
-  senderCountry String
-  receiverCountry String
-  routes   CryptoToFiatRoutes[]
+  receiverId          String?
+  receiverCurrency    String
+  senderCrypto        String
+  senderCountry       String
+  receiverCountry     String
+  routes              CryptoToFiatRoutes[]
 
   createdAt DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  updatedAt DateTime @updatedAt
 }
 
-model FiatToCryptoTransactions{
-  id  String @id @default(uuid())
-  userEmail  String 
-  user Users  @relation(fields: [userEmail],references: [email])
+model FiatToCryptoTransactions {
+  id             String  @id @default(uuid())
+  userEmail      String
+  user           Users   @relation(fields: [userEmail], references: [email])
   senderCurrency String
-  receiverId  String? 
+  receiverId     String?
   receiverWallet String
   recieverCrypto String
-  
 
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
-
-model FiatToFiatRoutes{
-  id String @id @default(uuid())
+model FiatToFiatRoutes {
+  id            String                @id @default(uuid())
   transactionId String
-  transaction FiatToFiatTransaction @relation(fields: [transactionId],references: [id])
-
+  transaction   FiatToFiatTransaction @relation(fields: [transactionId], references: [id])
 }
 
-model FiatToCryptoRoutes{
-  id  String @id @default(uuid())
+model FiatToCryptoRoutes {
+  id            String @id @default(uuid())
   transactionId String
-  
+
   //not much as razorpay payment => success => credit crypto to receiver wallet
 }
 
-model CryptoToFiatRoutes{
-  id String @id @default(uuid())
-  transactionId  String
-  transaction  CryptoToFiatTransactions @relation(fields: [transactionId],references: [id])
-  offRampProvider  String
-  cryptoProvider   String
-  estimatedFees    Float
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime  @updatedAt
+model CryptoToFiatRoutes {
+  id              String                   @id @default(uuid())
+  transactionId   String
+  transaction     CryptoToFiatTransactions @relation(fields: [transactionId], references: [id])
+  offRampProvider String
+  cryptoProvider  String
+  estimatedFees   Float
+  createdAt       DateTime                 @default(now())
+  updatedAt       DateTime                 @updatedAt
 }
 
-model CryptoToCryptoRoutes{
-  id  String @id @default(uuid())
-  sourceToken String
+model CryptoToCryptoRoutes {
+  id               String @id @default(uuid())
+  sourceToken      String
   destinationToken String
-  path  Json //routing path eg. Jupiter sawp path
-  minSlippage Int //acceptable slippage
-  liquiditySource String
-  estimatedFee  Float
+  path             Json //routing path eg. Jupiter sawp path
+  minSlippage      Int //acceptable slippage
+  liquiditySource  String
+  estimatedFee     Float
 
-  createdAt DateTime @default(now())
+  createdAt     DateTime           @default(now())
   //references
   transactionId String
-  transaction CryptoTransactions @relation(fields: [transactionId],references: [id])
+  transaction   CryptoTransactions @relation(fields: [transactionId], references: [id])
 }
 
-
-model SyndicWallet{
-  id  String @id @default(uuid())
-  totalAED   Float @default(0)
-  totalINR   Float @default(0)
-  totalUSD   Float @default(0)
-  userEmail  String @unique
-  user    Users @relation(fields: [userEmail],references: [email])
+model SyndicWallet {
+  id        String @id @default(uuid())
+  totalAED  Float  @default(0)
+  totalINR  Float  @default(0)
+  totalUSD  Float  @default(0)
+  userEmail String @unique
+  user      Users  @relation(fields: [userEmail], references: [email])
 }
